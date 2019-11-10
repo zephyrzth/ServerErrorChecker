@@ -1,6 +1,8 @@
 import telebot
 import time
-import mmap
+
+NEW_ERROR_DETECTED = 1
+
 
 log = "log.txt"
 log2 = "log.txt.2"
@@ -12,14 +14,6 @@ bot = telebot.TeleBot("911053354:AAFhSlXk7muBZ2FKNuJNnfB9MjaVOauMQWk")
 
 
 def countLine(filename):
-    # 	f = open(filename, "r+")
-    # 	buf = mmap.mmap(f.fileno(), 0)
-    # 	lines = 0
-    # 	readline = buf.readline
-    # 	while readline():
-    # 		lines += 1
-    #     f.close()
-    # 	return lines
     f = open(filename, 'r')
     panjang = len(f.readlines())
     f.close()
@@ -28,12 +22,9 @@ def countLine(filename):
 
 def beda(log, check):
     if (countLine(log) > countLine(check)):
-        # print("countline log " +str(countLine(log)))
-        # print("countline check " + str(countLine(check)))
-        # pasti ada beda
-        return 1
+        return NEW_ERROR_DETECTED
     elif (countLine(log) < countLine(check)):
-        # pasti ga error, ganti log baru
+        # kemungkinan ada rotasi log
         if (countLine(log) != 0):
             return -2
         return -1
@@ -61,9 +52,9 @@ def bedaIsi(log, check):
     fileCheck.close()
     return hasil
 
-
+i = 1
 while 1:
-    print("ehamsuk")
+    print(i)
     kondisi = beda(log, check)
     # kondisi kalau ada beda jumlah line
     print(kondisi)
@@ -74,7 +65,7 @@ while 1:
             kirim = 'ERROR TERDETEKSI:\n'
             for baris in kondisi:
                 kirim += baris
-            bot.send_message(chatId, kirim)
+            #bot.send_message(chatId, kirim)
             f1 = open(check, 'a')
             f1.write('\n')
             for baris in kondisi:
@@ -85,10 +76,9 @@ while 1:
         kondisi = -1
         # langsung send file log
         # kosongin file checker, kemungkinan error log ada yg ganti manual
-        bot.send_message(chatId,
-                         "Ada kesalahan dalam error log, file checker akan disamakan dengan file log dan file log akan dikirimkan")
+        #bot.send_message(chatId,"Ada kesalahan dalam error log, file checker akan disamakan dengan file log dan file log akan dikirimkan")
         f1 = open(log, 'rb')
-        bot.send_document(chatId, f1)
+        #bot.send_document(chatId, f1)
         f1.close()
         with open(log) as f:
             with open(check, 'w') as f1:
@@ -117,7 +107,7 @@ while 1:
                 kirim = 'ERROR TERDETEKSI:\n'
                 for baris in kondisi:
                     kirim += baris
-                bot.send_message(chatId, kirim)
+                #bot.send_message(chatId, kirim)
                 f1 = open(check, 'a+')
                 f1.write(kondisi)
                 f1.close
