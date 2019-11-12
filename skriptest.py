@@ -6,9 +6,12 @@ log = "log.txt"
 log2 = "log.txt.2"
 check = "check.txt"
 
-chatId = 872706884
+# chatId = 872706884
+# chatId = -307364885
+chatId = -1001465154468
 
-bot = telebot.TeleBot("911053354:AAFhSlXk7muBZ2FKNuJNnfB9MjaVOauMQWk")
+# bot = telebot.TeleBot("911053354:AAFhSlXk7muBZ2FKNuJNnfB9MjaVOauMQWk")
+bot = telebot.TeleBot("927160991:AAFHpiha5VivHVtOhHV7KHwS44QJ4YAhqZk")
 
 def countLine(filename):
 	f = open(filename, 'r')
@@ -109,7 +112,6 @@ while 1:
 		elif(kondisi==0):
 			f1 = open(check,'w')
 			f1.close()
-			# print("kosng goblok")
 			continue
 
 	# kalau ternyata log2 isinya beda dari check
