@@ -1,5 +1,4 @@
 import telebot
-import time
 import difflib
 from inotify_simple import INotify, flags
 
@@ -7,7 +6,6 @@ log = "error.log"
 check = "check.txt"
 
 chatId = 825291169
-
 bot = telebot.TeleBot("927160991:AAFHpiha5VivHVtOhHV7KHwS44QJ4YAhqZk")
 
 inotify = INotify()
@@ -16,7 +14,6 @@ watch_flags = flags.MOVE_SELF | flags.MODIFY
 
 def beda(log, check):
     inotify.add_watch(log, watch_flags)
-    # print("coba")
     try:
         for event in inotify.read(timeout=1):
             if event is not None:
@@ -27,7 +24,6 @@ def beda(log, check):
                             checklines = checkFile.readlines()
                             d = difflib.Differ()
                             diff = d.compare(loglines, checklines)
-                            # print("".join(diff))
                             perbedaan = "".join(x[2:] for x in diff if x.startswith('- '))
                         if perbedaan != "":
                             try:
@@ -55,14 +51,12 @@ def beda(log, check):
 
 i = 1
 while 1:
-    # print("Iterasi: {}".format(i))
     if i == 1:
         with open(log, "r") as logFile, open(check) as checkFile:
             loglines = logFile.readlines()
             checklines = checkFile.readlines()
             d = difflib.Differ()
             diff = d.compare(loglines, checklines)
-            # print("".join(diff))
             perbedaan = "".join(x[2:] for x in diff if x.startswith('- '))
         if perbedaan != "":
             try:
