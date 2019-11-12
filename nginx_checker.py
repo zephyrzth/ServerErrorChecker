@@ -1,77 +1,88 @@
 import telebot
 import time
+import difflib
 from inotify_simple import INotify, flags
 
-NEW_ERROR_DETECTED = 1
-LOG_ROTATED_DETECTED = -1
-DIFFERENT_CHECK_LOG = -1
+#NEW_ERROR_DETECTED = 1
+#LOG_ROTATED_DETECTED = -1
+#DIFFERENT_CHECK_LOG = -1
 
-log = "log.txt"
-log2 = "log.txt.2"
+log = "error.log"
+#log2 = "log_2.txt"
 check = "check.txt"
 
 chatId = 825291169
 
-bot = telebot.TeleBot("911053354:AAFhSlXk7muBZ2FKNuJNnfB9MjaVOauMQWk")
+bot = telebot.TeleBot("927160991:AAFHpiha5VivHVtOhHV7KHwS44QJ4YAhqZk")
 
 inotify = INotify()
 watch_flags = flags.MOVE_SELF | flags.MODIFY
 
 
-def countLine(filename):
-    f = open(filename, 'r')
-    panjang = len(f.readlines())
-    f.close()
-    return panjang
-
-
-def bedaIsi(log, check):
-    fileLog = open(log, 'r')
-    fileCheck = open(check, 'r')
-    fileLog.seek(0)
-    fileCheck.seek(0)
-
-    lenCheck = countLine(check)
-    for line in range(lenCheck):
-        isiLog = fileLog.readline().replace('\n', '')
-        isiCheck = fileCheck.readline().replace('\n', '')
-        if (isiLog != isiCheck):
-            fileLog.close()
-            fileCheck.close()
-            return DIFFERENT_CHECK_LOG
-    hasil = fileLog.readlines()
-    fileLog.close()
-    fileCheck.close()
-    return hasil
+# def countLine(filename):
+#     f = open(filename, 'r')
+#     panjang = len(f.readlines())
+#     f.close()
+#     return panjang
+#
+#
+# def bedaIsi(log, check):
+#     fileLog = open(log, 'r')
+#     fileCheck = open(check, 'r')
+#     fileLog.seek(0)
+#     fileCheck.seek(0)
+#
+#     lenCheck = countLine(check)
+#     for line in range(lenCheck):
+#         isiLog = fileLog.readline().replace('\n', '')
+#         isiCheck = fileCheck.readline().replace('\n', '')
+#         if (isiLog != isiCheck):
+#             print("log dan check tidak sama")
+#             fileLog.close()
+#             fileCheck.close()
+#             return DIFFERENT_CHECK_LOG
+#     hasil = fileLog.readlines()
+#     fileLog.close()
+#     fileCheck.close()
+#     return hasil
 
 
 def beda(log, check):
     inotify.add_watch(log, watch_flags)
+    #print("coba")
     try:
-        for event in inotify.read():
+        for event in inotify.read(timeout=1):
             if event is not None:
                 for flag in flags.from_mask(event.mask):
                     if str(flag) == 'flags.MODIFY':
-                        # new error in log detected
-                        newError = bedaIsi(log, check)
-                        if (newError != DIFFERENT_CHECK_LOG):
-                            print("beda ada")
-                            kirim = 'ERROR TERDETEKSI:\n'
-                            for line in newError:
-                                kirim += line
-                            bot.send_message(chatId, kirim)
-                            f1 = open(check, 'a+')
-                            for baris in kondisi:
-                                f1.write(baris)
-                            f1.write('\n')
-                            f1.close()
+                        with open(log, "r") as logFile, open(check) as checkFile:
+                            loglines = logFile.readlines()
+                            checklines = checkFile.readlines()
+                            d = difflib.Differ()
+                            diff = d.compare(loglines, checklines)
+                            #print("".join(diff))
+                            perbedaan = "".join(x[2:] for x in diff if x.startswith('- '))
+                        if perbedaan != "":
+                            try:
+                                kirim = 'ERROR TERDETEKSI:\n' + perbedaan
+                                bot.send_message(chatId, kirim)
+                                with open(check, "a+") as appendFile:
+                                    appendFile.write(perbedaan)
+                            except:
+                                print("Gagal mengirim error")
                         else:
                             pass
                     elif str(flag) == 'flags.MOVE_SELF':
                         with open(check, 'w'):
                             pass
-                        # return LOG_ROTATED_DETECTED
+                    elif str(flag) == 'flags.IGNORED':
+                        print("warning")
+                        bot.send_message(chatId, "Peringatan! file error.log diubah secara manual")
+                    else:
+                        print(str(flag))
+                        bot.send_message(chatId, str(flag))
     except:
+        print("error event")
         inotify.rm_watch(log)
     # if (countLine(log) > countLine(check)):
     #     return NEW_ERROR_DETECTED
@@ -83,10 +94,29 @@ def beda(log, check):
     # else:
     #     return 0
 
-
+i = 1
 while 1:
-    kondisi = beda(log, check)
-    time.sleep(5)
+    #print("Iterasi: {}".format(i))
+    if i == 1:
+        with open(log, "r") as logFile, open(check) as checkFile:
+            loglines = logFile.readlines()
+            checklines = checkFile.readlines()
+            d = difflib.Differ()
+            diff = d.compare(loglines, checklines)
+            #print("".join(diff))
+            perbedaan = "".join(x[2:] for x in diff if x.startswith('- '))
+        if perbedaan != "":
+            try:
+                kirim = 'ERROR TERDETEKSI:\n' + perbedaan
+                bot.send_message(chatId, kirim)
+                with open(check, "a+") as appendFile:
+                    appendFile.write(perbedaan)
+            except:
+                print("Gagal mengirim error")
+        else:
+            pass
+        i += 1
+    beda(log, check)
     # kondisi kalau ada beda jumlah line
     # print(kondisi)
     # if (kondisi == 1):
