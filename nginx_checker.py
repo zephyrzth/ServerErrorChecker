@@ -5,8 +5,8 @@ from inotify_simple import INotify, flags
 log = "error.log"
 check = "check.txt"
 
-chatId = 825291169
-bot = telebot.TeleBot("927160991:AAFHpiha5VivHVtOhHV7KHwS44QJ4YAhqZk")
+chatId = ''
+bot = telebot.TeleBot("")
 
 inotify = INotify()
 watch_flags = flags.MOVE_SELF | flags.MODIFY
