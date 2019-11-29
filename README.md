@@ -1,7 +1,7 @@
 # Server Error Checker
 Server error checker untuk mengecek error yang ada di server* dan mengirimnya ke telegram pengguna melalui bot telegram. Program ini dibuat dengan bahasa pemrograman Python dan dijalankan di server.
 
-*Sementara hanya error pada Nginx
+__**Hanya error pada Nginx*__
 
 ---
 
@@ -75,5 +75,12 @@ Server error checker untuk mengecek error yang ada di server* dan mengirimnya ke
 
 ---
 
-
-
+## Alternatif untuk mengambil chatId pada grup
+1. Tambahkan bot `Telegram Bot Raw`
+    ![Add Telegram Bot Raw](./images/add_telegram_bot_raw.png)
+2. Undang bot `Telegram Bot Raw` ke grup
+3. Bot tersebut akan mengeluarkan info tentang grup tersebut
+    ![Add Telegram Bot Raw](./images/id_with_telegram_bot_raw.png)
+4. Copy dan paste id yang baru saja didapatkan ke script `nginx_checker.py`
+5. Jalankan script python tersebut
+6. Akan ada pesan error yang memberikan id yang baru, lalu id itu yang akan digunakan dalam script python
