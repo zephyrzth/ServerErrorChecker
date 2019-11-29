@@ -9,6 +9,8 @@ __**Hanya error pada Nginx*__
 
 1. Mendeteksi error di server secara real-time
 2. Mengirim error melalui bot telegram dengan menggunakan api telegram kepada user atau grup telegram yang diinginkan
+    Contoh error : 
+    ![Error example](./images/error_example.png)
 
 ---
 
@@ -80,7 +82,7 @@ __**Hanya error pada Nginx*__
     ![Add Telegram Bot Raw](./images/add_telegram_bot_raw.png)
 2. Undang bot `Telegram Bot Raw` ke grup
 3. Bot tersebut akan mengeluarkan info tentang grup tersebut
-    ![Add Telegram Bot Raw](./images/id_with_telegram_bot_raw.png)
+    ![Id telegram](./images/id_with_telegram_bot_raw.png)
 4. Copy dan paste id yang baru saja didapatkan ke script `nginx_checker.py`
 5. Jalankan script python tersebut
 6. Akan ada pesan error yang memberikan id yang baru, lalu id itu yang akan digunakan dalam script python
