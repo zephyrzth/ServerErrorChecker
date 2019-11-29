@@ -79,7 +79,7 @@ __**Hanya error pada Nginx*__
 
 ---
 
-## Alternatif untuk mengambil chatId pada grup
+## Alternatif untuk mengambil chat id pada grup
 1. Tambahkan bot `Telegram Bot Raw`
     ![Add Telegram Bot Raw](./images/add_telegram_bot_raw.png)
 2. Undang bot `Telegram Bot Raw` ke grup
