@@ -27,8 +27,8 @@ __**Hanya error pada Nginx*__
 
 * **Cara install:**
     * `git clone https://github.com/zephyrzth/ServerErrorChecker.git`
-    * Install package pyTelegramBotAPI `pip install pyTelegramBotAPI`
-    * Install package inotify-simple `pip install inotify-simple`
+    * Install package pyTelegramBotAPI `pip install pyTelegramBotAPI` (kunjungi https://pypi.org/project/pyTelegramBotAPI/ untuk dokumentasi lengkap)
+    * Install package inotify-simple `pip install inotify-simple` (kunjungi https://pypi.org/project/inotify-simple/ untuk dokumentasi lengkap)
 
 ---
 
