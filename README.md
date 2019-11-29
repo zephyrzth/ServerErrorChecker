@@ -51,6 +51,7 @@ __**Hanya error pada Nginx*__
 ## Cara menyiapkan bot telegram untuk mengirim pesan error ke user
 1. Cari BotFather di telegram
 2. Ketik `/newbot` di chat room BotFather dan ikuti instruksi selanjutnya
+![Create Bot](./images/add_bot.png)
 3. API token bot akan didapatkan contoh : `911053354:AAFhSlXk7m789BZ2FKNuJNnfBsSMjaV23uMQWk`
 4. Buka chat room bot yang telah dibuat dan ketikkan `/start`
 5. Buka link `https://api.telegram.org/bot(token_api_bot)/getUpdates` di browser
@@ -67,6 +68,7 @@ __**Hanya error pada Nginx*__
 ## Cara menyiapkan bot telegram untuk mengirim pesan error ke grup
 1. Cari BotFather di telegram
 2. Ketik `/newbot` di chat room BotFather dan ikuti instruksi selanjutnya
+![Create Bot](./images/add_bot.png)
 3. API token bot akan didapatkan contoh : `911053354:AAFhSlXk7m789BZ2FKNuJNnfBsSMjaV23uMQWk`
 4. Buat grup di telegram dan invite bot yang telah dibuat
 5. Cari nilai id yang memiliki tanda minus (-)
