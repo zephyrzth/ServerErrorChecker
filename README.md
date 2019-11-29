@@ -51,10 +51,11 @@ Server error checker untuk mengecek error yang ada di server* dan mengirimnya ke
 4. Buka chat room bot yang telah dibuat dan ketikkan `/start`
 5. Buka link `https://api.telegram.org/bot(token_api_bot)/getUpdates` di browser
 6. Cari nilai id kalian di nilai `id` pada object `chat` yang sesuai dengan username yang sedang digunakan
-```{"update_id":8393,"message":{"message_id":3,"from":
-{"id":7474,"first_name":"AAA"},"chat":
-{"id":,"title":""},"date":25497,"new_chat_participant":
-{"id":71,"first_name":"NAME","username":"YOUR_BOT_NAME"}}}```
+    ```{"update_id":8393,"message":{"message_id":3,"from":
+    {"id":7474,"first_name":"AAA"},"chat":
+    {"id":,"title":""},"date":25497,"new_chat_participant":
+    {"id":71,"first_name":"NAME","username":"YOUR_BOT_NAME"}}}
+    ```
 7. Copy dan paste id yang baru saja didapatkan ke script `nginx_checker.py`
 
 ## Cara menyiapkan bot telegram untuk mengirim pesan error ke grup
