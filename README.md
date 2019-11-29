@@ -36,13 +36,15 @@ Server error checker untuk mengecek error yang ada di server* dan mengirimnya ke
 3. Buka file `nginx_checker.py` dan ubah:
 
    ```python
-   log = '' // Isi sesuai nama file log error dan direktorinya (misal error.log dari Nginx)
-   check = '' // Isi sesuai nama file dan direktorinya pada step 2
+   log = '' # Isi sesuai nama file log error dan direktorinya (misal error.log dari Nginx)
+   check = '' # Isi sesuai nama file dan direktorinya pada step 2
 
-   chatId = '' // Isi sesuai id group atau chat telegram yang ingin dikirimkan pesan errornya
-   bot = telebot.TeleBot("") // Masukkan kode API token dari bot Telegram yang sudah dibuat
+   chatId = '' # Isi sesuai id group atau chat telegram yang ingin dikirimkan pesan errornya
+   bot = telebot.TeleBot("") # Masukkan kode API token dari bot Telegram yang sudah dibuat
    ```
 4. Jalankan `nginx_checker.py` sebagai daemon agar bisa dijalankan di background.
+
+---
 
 ## Cara menyiapkan bot telegram untuk mengirim pesan error ke user
 1. Cari BotFather di telegram
@@ -58,7 +60,20 @@ Server error checker untuk mengecek error yang ada di server* dan mengirimnya ke
     ```
 7. Copy dan paste id yang baru saja didapatkan ke script `nginx_checker.py`
 
+---
+
 ## Cara menyiapkan bot telegram untuk mengirim pesan error ke grup
 1. Cari BotFather di telegram
 2. Ketik `/newbot` di chat room BotFather dan ikuti instruksi selanjutnya
-3. API token bot akan didapatkan contoh : `
+3. API token bot akan didapatkan contoh : `911053354:AAFhSlXk7m789BZ2FKNuJNnfBsSMjaV23uMQWk`
+4. Buat grup di telegram dan invite bot yang telah dibuat
+5. Cari nilai id yang memiliki tanda minus (-)
+6. Buka link `https://api.telegram.org/bot(token_api_bot)/getUpdates` di browser
+7. Copy dan paste id yang baru saja didapatkan ke script `nginx_checker.py`
+8. Jalankan script python tersebut
+9. Akan ada pesan error yang memberikan id yang baru, lalu id itu yang akan digunakan dalam script python
+
+---
+
+
+
