@@ -1,4 +1,4 @@
-# Server Error Checker
+![Server Error Checker](./images/logo.png)
 Server error checker untuk mengecek error yang ada di server* dan mengirimnya ke telegram pengguna melalui bot telegram. Program ini dibuat dengan bahasa pemrograman Python dan dijalankan di server.
 
 __**Hanya error pada Nginx*__
