@@ -11,6 +11,7 @@ __**Hanya error pada Nginx*__
 1. Mendeteksi error di server secara real-time
 2. Mengirim error melalui bot telegram dengan menggunakan api telegram kepada user atau grup telegram yang diinginkan
     Contoh error : 
+    
     ![Error example](/images/error_example.PNG)
 
 ---
@@ -53,6 +54,7 @@ __**Hanya error pada Nginx*__
 1. Cari BotFather di telegram
 2. Ketik `/newbot` di chat room BotFather dan ikuti instruksi selanjutnya
 ![Create Bot](/images/add_bot.PNG)
+
 3. API token bot akan didapatkan contoh : `911053354:AAFhSlXk7m789BZ2FKNuJNnfBsSMjaV23uMQWk`
 4. Buka chat room bot yang telah dibuat dan ketikkan `/start`
 5. Buka link `https://api.telegram.org/bot(token_api_bot)/getUpdates` di browser
@@ -70,6 +72,7 @@ __**Hanya error pada Nginx*__
 1. Cari BotFather di telegram
 2. Ketik `/newbot` di chat room BotFather dan ikuti instruksi selanjutnya
 ![Create Bot](/images/add_bot.PNG)
+
 3. API token bot akan didapatkan contoh : `911053354:AAFhSlXk7m789BZ2FKNuJNnfBsSMjaV23uMQWk`
 4. Buat grup di telegram dan invite bot yang telah dibuat
 5. Cari nilai id yang memiliki tanda minus (-)
@@ -83,9 +86,11 @@ __**Hanya error pada Nginx*__
 ## Alternatif untuk mengambil chat id pada grup
 1. Tambahkan bot `Telegram Bot Raw`
     ![Add Telegram Bot Raw](/images/add_telegram_bot_raw.PNG)
+    
 2. Undang bot `Telegram Bot Raw` ke grup
 3. Bot tersebut akan mengeluarkan info tentang grup tersebut
     ![Id telegram](/images/id_with_telegram_bot_raw.PNG)
+    
 4. Copy dan paste id yang baru saja didapatkan ke script `nginx_checker.py`
 5. Jalankan script python tersebut
 6. Akan ada pesan error yang memberikan id yang baru, lalu id itu yang akan digunakan dalam script python
