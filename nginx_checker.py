@@ -1,12 +1,27 @@
 import telebot
 import difflib
+import json
 from inotify_simple import INotify, flags
+from threading import Thread
 
-log = "error.log"
-check = "check.txt"
+CONFIG_FILE = 'config.json'
 
-chatId = ''
-bot = telebot.TeleBot("")
+
+def get_config():
+    try:
+        with open(CONFIG_FILE, 'rb') as openFile:
+            return json.load(openFile)
+    except:
+        print('File config tidak ditemukan')
+        return None
+
+
+logs = get_config()['check_files']
+checks = ["check" + str(i) + ".txt" for i in range(len(logs))]
+
+chatIds = get_config()['receiver_id']
+botId = get_config()['bot_id']
+bot = telebot.TeleBot(botId)
 
 inotify = INotify()
 watch_flags = flags.MOVE_SELF | flags.MODIFY
@@ -28,7 +43,8 @@ def beda(log, check):
                         if perbedaan != "":
                             try:
                                 kirim = 'ERROR TERDETEKSI:\n' + perbedaan
-                                bot.send_message(chatId, kirim)
+                                for chatId in chatIds:
+                                    bot.send_message(chatId, kirim)
                                 with open(check, "a+") as appendFile:
                                     appendFile.write(perbedaan)
                             except:
@@ -40,33 +56,48 @@ def beda(log, check):
                             pass
                     elif str(flag) == 'flags.IGNORED':
                         print("warning")
-                        bot.send_message(chatId, "Peringatan! file error.log diubah secara manual")
+                        for chatId in chatIds:
+                            bot.send_message(chatId, "Peringatan! file error.log diubah secara manual")
                     else:
                         print(str(flag))
-                        bot.send_message(chatId, str(flag))
+                        for chatId in chatIds:
+                            bot.send_message(chatId, str(flag))
     except:
         print("error event")
         inotify.rm_watch(log)
 
 
-i = 1
-while 1:
-    if i == 1:
-        with open(log, "r") as logFile, open(check) as checkFile:
-            loglines = logFile.readlines()
-            checklines = checkFile.readlines()
-            d = difflib.Differ()
-            diff = d.compare(loglines, checklines)
-            perbedaan = "".join(x[2:] for x in diff if x.startswith('- '))
-        if perbedaan != "":
-            try:
-                kirim = 'ERROR TERDETEKSI:\n' + perbedaan
-                bot.send_message(chatId, kirim)
-                with open(check, "a+") as appendFile:
-                    appendFile.write(perbedaan)
-            except:
-                print("Gagal mengirim error")
-        else:
-            pass
-        i += 1
-    beda(log, check)
+def start_thread(log, check):
+    i = 1
+    while 1:
+        if i == 1:
+            with open(log, "r") as logFile, open(check) as checkFile:
+                loglines = logFile.readlines()
+                checklines = checkFile.readlines()
+                d = difflib.Differ()
+                diff = d.compare(loglines, checklines)
+                perbedaan = "".join(x[2:] for x in diff if x.startswith('- '))
+            if perbedaan != "":
+                try:
+                    kirim = 'ERROR TERDETEKSI:\n' + perbedaan
+                    for chatId in chatIds:
+                        bot.send_message(chatId, kirim)
+                    with open(check, "a+") as appendFile:
+                        appendFile.write(perbedaan)
+                except:
+                    print("Gagal mengirim error")
+            else:
+                pass
+            i += 1
+        beda(log, check)
+
+
+if __name__ == "__main__":
+    threads = []
+    for index, log in enumerate(logs):
+        threads.append(
+            Thread(target=start_thread, args=(log, checks[index])))
+        threads[-1].start()
+
+    for t in threads:
+        t.join()
