@@ -24,11 +24,12 @@ for check in checks:
 
 chatIds = get_config()['receiver_id']
 botId = get_config()['bot_id']
+bot = telebot.TeleBot(botId)
 
 watch_flags = flags.MOVE_SELF | flags.MODIFY
 
 
-def beda(log, check, inotify, bot):
+def beda(log, check, inotify):
     inotify.add_watch(log, watch_flags)
     try:
         for event in inotify.read(timeout=1):
@@ -43,7 +44,7 @@ def beda(log, check, inotify, bot):
                             perbedaan = "".join(x[2:] for x in diff if x.startswith('- '))
                         if perbedaan != "":
                             try:
-                                kirim = 'ERROR TERDETEKSI:\n' + perbedaan
+                                kirim = log + ' ERROR TERDETEKSI:\n' + perbedaan
                                 for chatId in chatIds:
                                     bot.send_message(chatId, kirim)
                                 with open(check, "a+") as appendFile:
@@ -70,7 +71,6 @@ def beda(log, check, inotify, bot):
 
 def start_thread(log, check):
     inotify = INotify()
-    bot = telebot.TeleBot(botId)
     i = 1
     while 1:
         if i == 1:
@@ -82,7 +82,7 @@ def start_thread(log, check):
                 perbedaan = "".join(x[2:] for x in diff if x.startswith('- '))
             if perbedaan != "":
                 try:
-                    kirim = 'ERROR TERDETEKSI:\n' + perbedaan
+                    kirim = log + ' ERROR TERDETEKSI:\n' + perbedaan
                     for chatId in chatIds:
                         bot.send_message(chatId, kirim)
                     with open(check, "a+") as appendFile:
@@ -92,7 +92,7 @@ def start_thread(log, check):
             else:
                 pass
             i += 1
-        beda(log, check, inotify, bot)
+        beda(log, check, inotify)
 
 
 if __name__ == "__main__":
