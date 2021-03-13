@@ -18,6 +18,9 @@ def get_config():
 
 logs = get_config()['check_files']
 checks = ["check" + str(i) + ".txt" for i in range(len(logs))]
+for check in checks:
+    with open(check, 'w'):
+        pass
 
 chatIds = get_config()['receiver_id']
 botId = get_config()['bot_id']
