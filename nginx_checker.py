@@ -24,13 +24,11 @@ for check in checks:
 
 chatIds = get_config()['receiver_id']
 botId = get_config()['bot_id']
-bot = telebot.TeleBot(botId)
 
-inotify = INotify()
 watch_flags = flags.MOVE_SELF | flags.MODIFY
 
 
-def beda(log, check):
+def beda(log, check, inotify, bot):
     inotify.add_watch(log, watch_flags)
     try:
         for event in inotify.read(timeout=1):
@@ -71,6 +69,8 @@ def beda(log, check):
 
 
 def start_thread(log, check):
+    inotify = INotify()
+    bot = telebot.TeleBot(botId)
     i = 1
     while 1:
         if i == 1:
@@ -92,7 +92,7 @@ def start_thread(log, check):
             else:
                 pass
             i += 1
-        beda(log, check)
+        beda(log, check, inotify, bot)
 
 
 if __name__ == "__main__":
